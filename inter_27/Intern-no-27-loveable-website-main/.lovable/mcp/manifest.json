@@ -1,0 +1,99 @@
+{
+  "version": 1,
+  "sdk_version": "0.23.0",
+  "path": "/mcp",
+  "auth": {
+    "type": "oauth",
+    "issuer": "https://hyvamggjqppqxqnxiasb.supabase.co/auth/v1",
+    "accepted_audiences": [
+      "authenticated"
+    ]
+  },
+  "mcp": {
+    "server": {
+      "name": "vendly-mcp",
+      "version": "0.1.0",
+      "title": "Vendly"
+    },
+    "tools": [
+      {
+        "name": "get_my_profile",
+        "title": "Get my profile",
+        "description": "Fetch the signed-in seller's Vendly profile (store name, brand slug, bio, avatar).",
+        "annotations": {
+          "readOnlyHint": true,
+          "idempotentHint": true,
+          "openWorldHint": false
+        },
+        "inputSchema": {
+          "$schema": "http://json-schema.org/draft-07/schema#",
+          "type": "object",
+          "properties": {}
+        },
+        "outputSchema": null
+      },
+      {
+        "name": "update_my_profile",
+        "title": "Update my profile",
+        "description": "Update the signed-in seller's store name, brand slug, bio, or avatar URL.",
+        "annotations": {
+          "readOnlyHint": false,
+          "destructiveHint": false,
+          "idempotentHint": true,
+          "openWorldHint": false
+        },
+        "inputSchema": {
+          "$schema": "http://json-schema.org/draft-07/schema#",
+          "type": "object",
+          "properties": {
+            "store_name": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 120
+            },
+            "brand_slug": {
+              "type": "string",
+              "minLength": 2,
+              "maxLength": 60,
+              "pattern": "^[a-z0-9-]+$"
+            },
+            "bio": {
+              "type": "string",
+              "maxLength": 2000
+            },
+            "avatar_url": {
+              "type": "string",
+              "format": "uri"
+            }
+          }
+        },
+        "outputSchema": null
+      },
+      {
+        "name": "get_storefront",
+        "title": "Get storefront by brand slug",
+        "description": "Look up a public Vendly storefront by its brand slug (store name, bio, avatar).",
+        "annotations": {
+          "readOnlyHint": true,
+          "idempotentHint": true,
+          "openWorldHint": true
+        },
+        "inputSchema": {
+          "$schema": "http://json-schema.org/draft-07/schema#",
+          "type": "object",
+          "properties": {
+            "brand_slug": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 60
+            }
+          },
+          "required": [
+            "brand_slug"
+          ]
+        },
+        "outputSchema": null
+      }
+    ]
+  }
+}
